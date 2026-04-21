@@ -1,0 +1,100 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class GadgetShopGUI extends JFrame {
+
+    private ArrayList<Gadget> gadgets;
+
+    private JTextField modelField;
+    private JTextField priceField;
+    private JTextField weightField;
+    private JTextField sizeField;
+    private JTextArea outputArea;
+
+    public GadgetShopGUI() {
+        gadgets = new ArrayList<>();
+
+        setTitle("Gadget Shop");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        modelField = new JTextField(10);
+        priceField = new JTextField(5);
+        weightField = new JTextField(5);
+        sizeField = new JTextField(10);
+
+        JButton addMobileBtn = new JButton("Add Mobile");
+        JButton addMP3Btn = new JButton("Add MP3");
+        JButton displayBtn = new JButton("Display All");
+
+        outputArea = new JTextArea(10, 40);
+        outputArea.setEditable(false);
+
+        add(new JLabel("Model:"));
+        add(modelField);
+        add(new JLabel("Price:"));
+        add(priceField);
+        add(new JLabel("Weight:"));
+        add(weightField);
+        add(new JLabel("Size:"));
+        add(sizeField);
+
+        add(addMobileBtn);
+        add(addMP3Btn);
+        add(displayBtn);
+        add(new JScrollPane(outputArea));
+
+        // BUTTON ACTIONS
+
+        addMobileBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Mobile m = new Mobile(
+                    modelField.getText(),
+                    Double.parseDouble(priceField.getText()),
+                    Integer.parseInt(weightField.getText()),
+                    sizeField.getText(),
+                    50
+                );
+
+                gadgets.add(m);
+                outputArea.setText("Mobile added!");
+            }
+        });
+
+        addMP3Btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MP3 p = new MP3(
+                    modelField.getText(),
+                    Double.parseDouble(priceField.getText()),
+                    Integer.parseInt(weightField.getText()),
+                    sizeField.getText(),
+                    1000
+                );
+
+                gadgets.add(p);
+                outputArea.setText("MP3 added!");
+            }
+        });
+
+        displayBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                outputArea.setText("");
+
+                for (Gadget g : gadgets) {
+                    outputArea.append("\n");
+                    g.display();
+                    outputArea.append("----------------\n");
+                }
+            }
+        });
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new GadgetShopGUI();
+    }
+}
